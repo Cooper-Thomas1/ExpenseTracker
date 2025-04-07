@@ -11,3 +11,5 @@ Our Project Ideas:
 - Language learning tool
 - Music recommendation tool
 -  Resume builder
+- Expense tracker to analyse spending habits
+- Mood tracker/journal to track how a user has been feeling
