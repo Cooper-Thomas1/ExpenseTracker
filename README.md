@@ -52,3 +52,27 @@ The goal is to make budgeting more engaging, effective, and intuitive through ri
 - **Data Analysis:** Pandas, NumPy
 - **Visualization:** Chart.js or Plotly.js for graphs and pie charts
 
+## Directory Structure
+expense_tracker/
+│
+├── app/
+│   ├── __init__.py
+│   ├── routes.py
+│   ├── models.py
+│   ├── forms.py
+│
+├── templates/
+│   ├── base.html
+│   ├── dashboard.html
+│   ├── home.html
+│   ├── login.html
+│   ├── share.html
+│   ├── upload.html
+│   ├── visualise.html
+│
+├── static/
+│   └── styles.css
+│
+├── venv/
+└── ...
+
