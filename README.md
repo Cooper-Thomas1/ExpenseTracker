@@ -53,6 +53,7 @@ The goal is to make budgeting more engaging, effective, and intuitive through ri
 - **Visualization:** Chart.js or Plotly.js for graphs and pie charts
 
 ## Directory Structure
+```
 expense_tracker/
 │
 ├── app/
@@ -75,4 +76,5 @@ expense_tracker/
 │
 ├── venv/
 └── ...
+```
 
