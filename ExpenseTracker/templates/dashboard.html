@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Hello, {{ current_user.username }}!</h2>
+
+<ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+  <li class="nav-item">
+    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#upload" type="button">Upload Data</button>
+  </li>
+  <li class="nav-item">
+    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#visualize" type="button">Visualize</button>
+  </li>
+  <li class="nav-item">
+    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#share" type="button">Share</button>
+  </li>
+</ul>
+
+<div class="tab-content mt-3">
+  <div class="tab-pane fade show active" id="upload">
+    {% include "upload.html" %}
+  </div>
+  <div class="tab-pane fade" id="visualize">
+    {% include "visualize.html" %}
+  </div>
+  <div class="tab-pane fade" id="share">
+    {% include "share.html" %}
+  </div>
+</div>
+
+{% endblock %}
