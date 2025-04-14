@@ -21,6 +21,40 @@ The goal is to make budgeting more engaging, effective, and intuitive through ri
 
 ---
 
+## Install guide
+
+1. **Download or Clone**  
+   - Download the latest release or clone the repository and open a terminal in the project’s root directory.
+
+2. **(Recommended) Create a Virtual Environment**  
+   Use a virtual environment to manage dependencies:  
+   [Python venv documentation](https://docs.python.org/3/library/venv.html).  
+   - **Windows**  
+        ```
+        python -m venv venv
+        venv\Scripts\activate
+        ```
+   
+   - **MacOS/Linux**  
+        ```
+        python -m venv venv
+        source venv/bin/activate
+        ```
+
+3. **Install Dependencies**  
+        ```
+        python -m pip install -r requirements.txt
+        ```
+
+4. **Run the Flask Project**  
+        ```
+        flask run
+        ```
+
+5. **Access the Website**  
+   Open your browser and visit:  
+   [http://127.0.0.1:5000](http://127.0.0.1:5000)
+
 ## Application Features
 
 ### Introductory View
