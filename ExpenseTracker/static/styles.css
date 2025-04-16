@@ -4,21 +4,21 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f8f9fa;
-  }
-  
-  .container {
+}
+
+.container {
     margin-top: 20px;
-  }
-  
-  .navbar {
+}
+
+.navbar {
     background-color: #343a40;
-  }
-  
-  .navbar-brand {
+}
+
+.navbar-brand {
     font-weight: bold;
     font-size: 1.5rem;
-  }
-  
-  .navbar a.btn {
+}
+
+.navbar a.btn {
     border-radius: 25px;
-  }
+}
