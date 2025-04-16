@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2>Hello, {{ current_user.username }}!</h2>
+<h2>Hello, {{ current_user['username'] }}!</h2> #placeholder for username until we add in forms properly
 
 <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
   <li class="nav-item">
