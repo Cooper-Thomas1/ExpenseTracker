@@ -2,9 +2,15 @@
 {% block content %}
 <h2>Login</h2>
 <form method="POST" action="/login">
-  {{ form.hidden_tag() }}
-  {{ form.username.label }} {{ form.username(class="form-control") }}
-  {{ form.password.label }} {{ form.password(class="form-control") }}
+  <!-- For now, just static placeholders for form fields -->
+  <div>
+    <label for="username">Username</label>
+    <input type="text" id="username" class="form-control">
+  </div>
+  <div>
+    <label for="password">Password</label>
+    <input type="password" id="password" class="form-control">
+  </div>
   <button type="submit" class="btn btn-primary mt-2">Login</button>
 </form>
 {% endblock %}
