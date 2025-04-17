@@ -4,6 +4,10 @@ from ExpenseTracker import app
 # Mock current_user for now
 current_user = {"username": "ABC_123"}  # Replace with actual user logic later
 
+@app.route("/")
+def index():
+    return render_template("home.html")
+
 @app.route("/home")
 def home():
     return render_template("home.html")
