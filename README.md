@@ -99,8 +99,10 @@ expense_tracker/
 ├── templates/
 │   ├── base.html
 │   ├── dashboard.html
+|   ├── forgot-password.html
 │   ├── home.html
 │   ├── login.html
+|   ├── register.html
 │   ├── share.html
 │   ├── upload.html
 │   ├── visualise.html
