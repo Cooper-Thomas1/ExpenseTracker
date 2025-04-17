@@ -36,7 +36,7 @@ def share():
 def upload():
     return render_template("upload.html")
 
-@app.route("/visualize")
+@app.route("/visualise")
 def visualize():
-    return render_template("visualize.html")
+    return render_template("visualise.html")
 
