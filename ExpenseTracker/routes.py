@@ -24,7 +24,7 @@ def dashboard():
 def register():
     return render_template("register.html")
 
-@app.route("forgot-password")
+@app.route("/forgot-password")
 def forgot_password():
     return render_template("forgot-password.html")
 
