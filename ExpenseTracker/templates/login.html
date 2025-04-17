@@ -1,16 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Login</h2>
-<form method="POST" action="/login">
-  <!-- For now, just static placeholders for form fields -->
-  <div>
-    <label for="username">Username</label>
-    <input type="text" id="username" class="form-control">
-  </div>
-  <div>
-    <label for="password">Password</label>
-    <input type="password" id="password" class="form-control">
-  </div>
-  <button type="submit" class="btn btn-primary mt-2">Login</button>
-</form>
+<div class="login-page">
+  <h2>Login</h2>
+  <form method="POST" action="/login">
+    <div>
+      <label for="username">Username</label>
+      <input type="text" id="username" required class="form-control">
+    </div>
+    <div>
+      <label for="password">Password</label>
+      <input type="password" id="password" required class="form-control">
+    </div>
+    <div>
+      <input type="checkbox" id="remember-me">
+      <label for="remember-me">Remember me</label>
+      <a href="/forgot-password" class="forgot-password">Forgot password?</a>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Login</button>
+    <div class="register-link">
+      <p>Don't have an account? <a href="/register">Register here</a></p>
+    </div>
+  </form>
+</div>
+
 {% endblock %}
