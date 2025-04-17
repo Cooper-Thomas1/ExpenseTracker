@@ -19,3 +19,24 @@ def login():
 @app.route("/dashboard")
 def dashboard():
     return render_template("dashboard.html", current_user=current_user)
+
+@app.route("/register")
+def register():
+    return render_template("register.html")
+
+@app.route("forgot-password")
+def forgot_password():
+    return render_template("forgot-password.html")
+
+@app.route("/share")
+def share():
+    return render_template("share.html")
+
+@app.route("/upload")
+def upload():
+    return render_template("upload.html")
+
+@app.route("/visualize")
+def visualize():
+    return render_template("visualize.html")
+
