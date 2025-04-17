@@ -1,9 +1,10 @@
-<!DOCTYPE html>
-<html>
-    <head>
-		
-    </head>
-    <body>
-        <p1>Expense Tracker</p1>
-    </body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="text-center">
+    <h1>Welcome to ExpenseTracker</h1>
+    <p>Track, Analyse, and Share your Expenses with Ease.</p>
+    <a href="{{ url_for('login') }}">Login</a>
+  </div>
+{% endblock %}
+
