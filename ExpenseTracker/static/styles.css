@@ -22,3 +22,25 @@ body {
 .navbar a.btn {
     border-radius: 25px;
 }
+
+ul {
+    list-style-position: inside;
+    padding-left: 0;
+  }
+  
+  li {
+    margin: 5px 0;
+  }
+
+  .footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px 0;
+    gap: 10px;
+}
+
+.footer a {
+    text-decoration: none;
+}
