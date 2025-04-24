@@ -15,9 +15,8 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">ExpenseTracker</a>
-      <div>
-        <a href="/login" class="btn btn-outline-light me-2">Login</a>
-      </div>
+      {% block navbarcontent %}
+      {% endblock %}
     </div>
   </nav>
 
