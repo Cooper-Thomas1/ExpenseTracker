@@ -1,2 +1,29 @@
 {% extends "base.html" %}
-<p><em>Upload functionality coming soon!</em></p>
+{% block content %}
+<div class="container">
+  <!-- Manual Input Form -->
+  <h3>Manually Add an Expense</h3>
+  <form method="POST" action="{{ url_for('upload') }}">
+    {{ manual_form.hidden_tag() }}
+    <div class="mb-3">
+        {{ manual_form.date.label(class="form-label") }}
+        {{ manual_form.date(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        {{ manual_form.category.label(class="form-label") }}
+        {{ manual_form.category(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ manual_form.amount.label(class="form-label") }}
+      {{ manual_form.amount(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ manual_form.description.label(class="form-label") }}
+      {{ manual_form.description(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ manual_form.submit(class="btn btn-success") }}
+    </div>
+  </form>
+</div>
+{% endblock %}
