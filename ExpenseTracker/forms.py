@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, FloatField, DateField, SubmitField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from ExpenseTracker.models import User
 
@@ -24,3 +24,10 @@ class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
+
+class ManualExpenseForm(FlaskForm):
+    date = DateField('Date', validators=[DataRequired()], format='%Y-%m-%d')
+    category = StringField('Category', validators=[DataRequired(), Length(max=50)])
+    amount = FloatField('Amount', validators=[DataRequired()])
+    description = StringField('Description', validators=[Length(max=200)])
+    submit = SubmitField('Add Expense')

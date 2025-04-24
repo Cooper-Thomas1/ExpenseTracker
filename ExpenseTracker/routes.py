@@ -1,8 +1,8 @@
-from flask import render_template, url_for, flash, redirect
+from flask import render_template, url_for, flash, redirect, jsonify
 from ExpenseTracker import app, db, bcrypt
-from ExpenseTracker.forms import RegistrationForm, LoginForm
-from ExpenseTracker.models import User
-from flask_login import login_user, logout_user, login_required
+from ExpenseTracker.forms import RegistrationForm, LoginForm, ManualExpenseForm
+from ExpenseTracker.models import User, Expense
+from flask_login import login_user, logout_user, login_required, current_user
 
 @app.route("/")
 def index():
@@ -53,13 +53,27 @@ def logout():
 def forgot_password():
     return render_template("forgot-password.html")
 
+@app.route("/upload", methods=['GET', 'POST'])
+@login_required
+def upload():
+    form = ManualExpenseForm()
+    if form.validate_on_submit():
+        expense = Expense(
+            date=form.date.data,
+            category=form.category.data,
+            amount=form.amount.data,
+            description=form.description.data,
+            user_id=current_user.id
+        )
+        db.session.add(expense)
+        db.session.commit()
+        flash('Expense added successfully!', 'success')
+        return redirect(url_for('dashboard'))
+    return render_template('upload.html', manual_form=form)
+
 @app.route("/share")
 def share():
     return render_template("share.html")
-
-@app.route("/upload")
-def upload():
-    return render_template("upload.html")
 
 @app.route("/visualise")
 def visualize():
