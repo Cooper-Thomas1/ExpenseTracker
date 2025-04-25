@@ -53,3 +53,9 @@ class ResetPasswordForm(FlaskForm):
     password = PasswordField('New Password', validators=[DataRequired()], render_kw={"placeholder": "New Password"})
     confirm_password = PasswordField('Confirm New Password', validators=[DataRequired(), EqualTo('password')], render_kw={"placeholder": "Confirm New Password"})
     submit = SubmitField('Reset Password')
+
+class ShareForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
+    start_date = DateField('Start Date', validators=[DataRequired()], format='%Y-%m-%d')
+    end_date = DateField('End Date', validators=[DataRequired()], format='%Y-%m-%d')
+    submit = SubmitField('Submit')
