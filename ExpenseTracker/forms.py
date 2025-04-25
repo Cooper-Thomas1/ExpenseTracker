@@ -31,3 +31,9 @@ class ManualExpenseForm(FlaskForm):
     amount = FloatField('Amount', validators=[DataRequired()])
     description = StringField('Description', validators=[Length(max=200)])
     submit = SubmitField('Add Expense')
+
+class ShareForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
+    start_date = DateField('Start Date', validators=[DataRequired()], format='%Y-%m-%d')
+    end_date = DateField('End Date', validators=[DataRequired()], format='%Y-%m-%d')
+    submit = SubmitField('Submit')

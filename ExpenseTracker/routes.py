@@ -72,6 +72,7 @@ def upload():
     return render_template('upload.html', manual_form=form)
 
 @app.route("/share")
+@login_required
 def share():
     return render_template("share.html")
 
