@@ -57,7 +57,8 @@ def forgot_password():
 @app.route("/expense-history")
 @login_required
 def expense_history():
-    return render_template("expense-history.html")
+    expenses = Expense.query.filter_by(user_id=current_user.id).all()
+    return render_template("expense-history.html", expenses=expenses)
 
 @app.route("/upload", methods=['GET', 'POST'])
 @login_required
@@ -114,6 +115,18 @@ def api_expenses():
         for expense in current_user.expenses
     ]
     return jsonify(expenses)
+
+@app.route("/delete-expense/<int:expense_id>", methods=['POST'])
+@login_required
+def delete_expense(expense_id):
+    expense = Expense.query.get_or_404(expense_id)
+    if expense.user_id != current_user.id:
+        flash("You are not authorized to delete this expense.", "danger")
+        return redirect(url_for('expense_history'))
+    db.session.delete(expense)
+    db.session.commit()
+    flash("Expense deleted successfully!", "success")
+    return redirect(url_for('expense_history'))
 
 @app.route('/privacy-policy')
 def privacy_policy():
