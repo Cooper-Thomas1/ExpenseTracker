@@ -31,3 +31,17 @@ class ManualExpenseForm(FlaskForm):
     amount = FloatField('Amount', validators=[DataRequired()])
     description = StringField('Description', validators=[Length(max=200)])
     submit = SubmitField('Add Expense')
+
+class ForgotPasswordForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()], render_kw={"placeholder": "Enter your email"})
+    submit = SubmitField('Request Password Reset')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if not user:
+            raise ValidationError('No account found with that email.')
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('New Password', validators=[DataRequired()], render_kw={"placeholder": "New Password"})
+    confirm_password = PasswordField('Confirm New Password', validators=[DataRequired(), EqualTo('password')], render_kw={"placeholder": "Confirm New Password"})
+    submit = SubmitField('Reset Password')
