@@ -21,8 +21,8 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('That email is already registered.')
 
 class LoginForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    email = StringField("Email", validators=[DataRequired(), Email()], render_kw={"placeholder": "Email"})
+    password = PasswordField("Password", validators=[DataRequired()], render_kw={"placeholder": "Password"})
     submit = SubmitField('Login')
 
 class ManualExpenseForm(FlaskForm):
