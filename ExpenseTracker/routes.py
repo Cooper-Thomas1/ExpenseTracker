@@ -76,7 +76,8 @@ def share():
     return render_template("share.html")
 
 @app.route("/visualise")
-def visualize():
+@login_required
+def visualise():
     return render_template("visualise.html")
 
 @app.route("/api/expenses")
