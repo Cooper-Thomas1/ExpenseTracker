@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, jsonify
 from ExpenseTracker import app, db, bcrypt, mail
 from ExpenseTracker.forms import RegistrationForm, LoginForm, ManualExpenseForm, ForgotPasswordForm, ResetPasswordForm, ShareForm
-from ExpenseTracker.models import User, Expense
+from ExpenseTracker.models import User, Expense, SharedExpense
 from flask_login import login_user, logout_user, login_required, current_user
 from datetime import datetime, timedelta
 from flask_mail import Message
@@ -114,13 +114,51 @@ def upload():
         return redirect(url_for('dashboard'))
     return render_template('upload.html', manual_form=form)
 
-@app.route("/share")
+@app.route("/share", methods=['GET', 'POST'])
 @login_required
 def share():
     form = ShareForm()
     if form.validate_on_submit():
-        return redirect(url_for('dashboard'))
-    return render_template("share.html", form=form)
+        recipient = User.query.filter_by(username=form.username.data).first()
+        if recipient == None:
+            flash("No account with that username found.")
+        elif recipient.id == current_user.id:
+            flash("Cannot share expenses with yourself.")
+        else:
+            sharedExpense = SharedExpense(
+                sender_id=current_user.id,
+                recipient_id=recipient.id,
+                start_date=form.start_date.data,
+                end_date=form.end_date.data
+            )
+            db.session.add(sharedExpense)
+            db.session.commit()
+            flash("Successfully shared expenses.")
+    
+    shared_expenses = SharedExpense.query.filter_by(sender_id=current_user.id).all()
+
+    formatted_expenses = []
+    for shared_expense in shared_expenses:
+        recipient_username = User.query.get(shared_expense.recipient_id).username
+        formatted_expenses.append({"username": recipient_username, 
+                                   "start_date": shared_expense.start_date, 
+                                   "end_date": shared_expense.end_date})
+    return render_template("share.html", form=form, shared_expenses=formatted_expenses)
+
+@app.route("/shared-with-me", methods=['GET'])
+@login_required
+def shared_with_me():
+    shared_expenses = SharedExpense.query.filter_by(recipient_id=current_user.id).all()
+
+    formatted_expenses = []
+    for shared_expense in shared_expenses:
+        sender_username = User.query.get(shared_expense.sender_id).username
+        expenses = Expense.query.filter(Expense.user_id == shared_expense.sender_id, 
+                                        Expense.date >= shared_expense.start_date,
+                                        Expense.date <= shared_expense.end_date).all()
+        formatted_expenses.append({"username": sender_username, "expenses": expenses})
+
+    return render_template("shared-with-me.html", shared_expenses=formatted_expenses)
 
 @app.route("/visualise")
 @login_required
