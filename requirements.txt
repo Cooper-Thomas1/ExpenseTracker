@@ -3,5 +3,7 @@ Flask-WTF
 Flask-SQLAlchemy
 Flask-Bcrypt
 Flask-Login
+Flask-Mail
 python-dotenv
 email-validator
+itsdangerous
