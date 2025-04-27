@@ -1,17 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-
 <div class="container">
-    <h2>Register</h2>
-    <form method="POST">
-      {{ form.hidden_tag() }}
-      <div>{{ form.username.label }} {{ form.username(class="form-control") }}</div>
-      <div>{{ form.email.label }} {{ form.email(class="form-control") }}</div>
-      <div>{{ form.password.label }} {{ form.password(class="form-control") }}</div>
-      <div>{{ form.confirm_password.label }} {{ form.confirm_password(class="form-control") }}</div>
-      <div>{{ form.submit(class="btn btn-primary mt-2") }}</div>
-    </form>
-  </div>
-
-
+  <h3>Share Expenses with Another User</h3>
+  <form method="POST" action="{{ url_for('share') }}">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+      <label for="username">Username</label>
+      {{ form.username(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      <label for="start_date">Expenses Start Date</label>
+      {{ form.start_date(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      <label for="end_date">Expenses End Date</label>
+      {{ form.end_date(class="form-control") }}
+    </div>
+    <button type="submit" class="btn btn-primary">Share</button>
+  </form>
+</div>
 {% endblock %}

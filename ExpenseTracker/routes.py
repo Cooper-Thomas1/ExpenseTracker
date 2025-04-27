@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, jsonify
 from ExpenseTracker import app, db, bcrypt
-from ExpenseTracker.forms import RegistrationForm, LoginForm, ManualExpenseForm
+from ExpenseTracker.forms import RegistrationForm, LoginForm, ManualExpenseForm, ShareForm
 from ExpenseTracker.models import User, Expense
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -74,7 +74,10 @@ def upload():
 @app.route("/share")
 @login_required
 def share():
-    return render_template("share.html")
+    form = ShareForm()
+    if form.validate_on_submit():
+        return redirect(url_for('dashboard'))
+    return render_template("share.html", form=form)
 
 @app.route("/visualise")
 def visualize():
