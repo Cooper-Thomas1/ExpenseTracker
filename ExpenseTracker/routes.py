@@ -136,11 +136,11 @@ def share():
             flash("Successfully shared expenses.")
     
     shared_expenses = SharedExpense.query.filter_by(sender_id=current_user.id).all()
-
     formatted_expenses = []
     for shared_expense in shared_expenses:
         recipient_username = User.query.get(shared_expense.recipient_id).username
-        formatted_expenses.append({"username": recipient_username, 
+        formatted_expenses.append({"id": shared_expense.id,
+                                   "username": recipient_username, 
                                    "start_date": shared_expense.start_date, 
                                    "end_date": shared_expense.end_date})
     return render_template("share.html", form=form, shared_expenses=formatted_expenses)
@@ -205,6 +205,18 @@ def delete_expense(expense_id):
     db.session.commit()
     flash("Expense deleted successfully!", "success")
     return redirect(url_for('expense_history'))
+
+@app.route("/delete-shared-expense/<int:shared_expense_id>", methods=['POST'])
+@login_required
+def delete_shared_expense(shared_expense_id):
+    shared_expense = SharedExpense.query.get_or_404(shared_expense_id)
+    if shared_expense.sender_id != current_user.id:
+        flash("You are not authorized to delete this shared expense.", "danger")
+        return redirect(url_for('share'))
+    db.session.delete(shared_expense)
+    db.session.commit()
+    flash("Shared expense deleted successfully!", "success")
+    return redirect(url_for('share'))
 
 @app.route('/privacy-policy')
 def privacy_policy():
