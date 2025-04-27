@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, jsonify
 from ExpenseTracker import app, db, bcrypt, mail
-from ExpenseTracker.forms import RegistrationForm, LoginForm, ManualExpenseForm, ForgotPasswordForm, ResetPasswordForm
+from ExpenseTracker.forms import RegistrationForm, LoginForm, ManualExpenseForm, ForgotPasswordForm, ResetPasswordForm, ShareForm
 from ExpenseTracker.models import User, Expense
 from flask_login import login_user, logout_user, login_required, current_user
 from datetime import datetime, timedelta
@@ -117,7 +117,10 @@ def upload():
 @app.route("/share")
 @login_required
 def share():
-    return render_template("share.html")
+    form = ShareForm()
+    if form.validate_on_submit():
+        return redirect(url_for('dashboard'))
+    return render_template("share.html", form=form)
 
 @app.route("/visualise")
 @login_required
