@@ -1,0 +1,61 @@
+.login-container {
+    max-width: 600px;
+    margin: auto;
+    width: 100%;
+    padding: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+}
+.login-container .form-label {
+    font-weight: bold;
+}
+.login-container .form-control {
+    border-radius: 8px;
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+}
+.login-container .form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+.login-container .form-check-input {
+    margin-top: 0.3rem;
+}
+.login-container .btn-primary {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #4facfe;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.login-container .btn-primary:hover {
+    background-color: #3a8ee6;
+}
+.login-container .form-check {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+.login-container .register-link {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+}
+.login-container .register-link a {
+  color: #4facfe;
+  text-decoration: none;
+}
