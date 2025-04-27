@@ -6,24 +6,22 @@
   <form method="POST" action="{{ url_for('upload') }}">
     {{ manual_form.hidden_tag() }}
     <div class="mb-3">
-        {{ manual_form.date.label(class="form-label") }}
-        {{ manual_form.date(class="form-control") }}
+      <label for="date">Date</label>
+      {{ manual_form.date(class="form-control") }}
     </div>
     <div class="mb-3">
-        {{ manual_form.category.label(class="form-label") }}
-        {{ manual_form.category(class="form-control") }}
+      <label for="category">Category</label>
+      {{ manual_form.category(class="form-control") }}
     </div>
     <div class="mb-3">
-      {{ manual_form.amount.label(class="form-label") }}
+      <label for="amount">Amount</label>
       {{ manual_form.amount(class="form-control") }}
     </div>
     <div class="mb-3">
-      {{ manual_form.description.label(class="form-label") }}
+      <label for="description">Description</label>
       {{ manual_form.description(class="form-control") }}
     </div>
-    <div class="mb-3">
-      {{ manual_form.submit(class="btn btn-success") }}
-    </div>
+    <button type="submit" class="btn btn-primary">Add Expense</button>
   </form>
 </div>
 {% endblock %}

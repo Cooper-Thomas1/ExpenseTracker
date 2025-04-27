@@ -14,9 +14,9 @@
     </div>
 
     <ul class="list-group">
-        <li class="list-group-item">Average Monthly Spend: $X.XX</li>
-        <li class="list-group-item">Most Spent Category: ___</li>
-        <li class="list-group-item">Total spent compared to last month: +-$X.XX</li>
+        <li class="list-group-item">Average Monthly Spend: ${{ avg_monthly_spend | round(2) }}</li>
+        <li class="list-group-item">Most Spent Category: {{ most_spent_category }}</li>
+        <li class="list-group-item">Total spent compared to last month: {{ difference | round(2) }}</li>
     </ul>
 </main>
 

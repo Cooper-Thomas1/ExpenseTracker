@@ -1,10 +1,10 @@
 from flask import render_template, url_for, flash, redirect, jsonify
-from ExpenseTracker import app, db, bcrypt
+from ExpenseTracker import app, db, bcrypt, mail
 from ExpenseTracker.forms import RegistrationForm, LoginForm, ManualExpenseForm, ForgotPasswordForm, ResetPasswordForm
 from ExpenseTracker.models import User, Expense
 from flask_login import login_user, logout_user, login_required, current_user
+from datetime import datetime, timedelta
 from flask_mail import Message
-from ExpenseTracker import mail
 
 @app.route("/")
 def index():
@@ -93,7 +93,8 @@ def reset_token(token):
 @app.route("/expense-history")
 @login_required
 def expense_history():
-    return render_template("expense-history.html")
+    expenses = Expense.query.filter_by(user_id=current_user.id).all()
+    return render_template("expense-history.html", expenses=expenses)
 
 @app.route("/upload", methods=['GET', 'POST'])
 @login_required
@@ -120,7 +121,27 @@ def share():
 @app.route("/visualise")
 @login_required
 def visualise():
-    return render_template("visualise.html")
+    expenses = Expense.query.filter_by(user_id=current_user.id).all()
+
+    total_spent = sum(expense.amount for expense in expenses)
+    months = len(set(expense.date.strftime('%Y-%m') for expense in expenses))
+    avg_monthly_spend = total_spent / months if months > 0 else 0
+
+    category_totals = {}
+    for expense in expenses:
+        category_totals[expense.category] = category_totals.get(expense.category, 0) + expense.amount
+    most_spent_category = max(category_totals, key=category_totals.get) if category_totals else "N/A"
+
+    current_month = datetime.now().strftime('%Y-%m')
+    last_month = (datetime.now().replace(day=1) - timedelta(days=1)).strftime('%Y-%m')
+    current_month_total = sum(expense.amount for expense in expenses if expense.date.strftime('%Y-%m') == current_month)
+    last_month_total = sum(expense.amount for expense in expenses if expense.date.strftime('%Y-%m') == last_month)
+    difference = current_month_total - last_month_total
+
+    return render_template('visualise.html', 
+                           avg_monthly_spend=avg_monthly_spend, 
+                           most_spent_category=most_spent_category, 
+                           difference=difference)
 
 @app.route("/api/expenses")
 @login_required
@@ -130,6 +151,18 @@ def api_expenses():
         for expense in current_user.expenses
     ]
     return jsonify(expenses)
+
+@app.route("/delete-expense/<int:expense_id>", methods=['POST'])
+@login_required
+def delete_expense(expense_id):
+    expense = Expense.query.get_or_404(expense_id)
+    if expense.user_id != current_user.id:
+        flash("You are not authorized to delete this expense.", "danger")
+        return redirect(url_for('expense_history'))
+    db.session.delete(expense)
+    db.session.commit()
+    flash("Expense deleted successfully!", "success")
+    return redirect(url_for('expense_history'))
 
 @app.route('/privacy-policy')
 def privacy_policy():
