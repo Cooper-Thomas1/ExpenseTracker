@@ -1,6 +1,8 @@
 from ExpenseTracker import db, login_manager
 from flask_login import UserMixin
 from datetime import datetime, timezone
+from itsdangerous import URLSafeTimedSerializer as Serializer
+from flask import current_app
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -12,6 +14,19 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
     expenses = db.relationship('Expense', backref='owner', lazy=True)
+
+    def get_reset_token(self, expires_sec=1800):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        return s.dumps({'user_id': self.id})
+    
+    @staticmethod
+    def verify_reset_token(token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token, max_age=1800)['user_id']
+        except:
+            return None
+        return User.query.get(user_id)
 
 class Expense(db.Model):
     id = db.Column(db.Integer, primary_key=True)
