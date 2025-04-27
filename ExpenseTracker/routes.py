@@ -3,6 +3,7 @@ from ExpenseTracker import app, db, bcrypt
 from ExpenseTracker.forms import RegistrationForm, LoginForm, ManualExpenseForm
 from ExpenseTracker.models import User, Expense
 from flask_login import login_user, logout_user, login_required, current_user
+from datetime import datetime, timedelta
 
 @app.route("/")
 def index():
@@ -83,7 +84,27 @@ def share():
 @app.route("/visualise")
 @login_required
 def visualise():
-    return render_template("visualise.html")
+    expenses = Expense.query.all()
+
+    total_spent = sum(expense.amount for expense in expenses)
+    months = len(set(expense.date.strftime('%Y-%m') for expense in expenses))
+    avg_monthly_spend = total_spent / months if months > 0 else 0
+
+    category_totals = {}
+    for expense in expenses:
+        category_totals[expense.category] = category_totals.get(expense.category, 0) + expense.amount
+    most_spent_category = max(category_totals, key=category_totals.get) if category_totals else "N/A"
+
+    current_month = datetime.now().strftime('%Y-%m')
+    last_month = (datetime.now().replace(day=1) - timedelta(days=1)).strftime('%Y-%m')
+    current_month_total = sum(expense.amount for expense in expenses if expense.date.strftime('%Y-%m') == current_month)
+    last_month_total = sum(expense.amount for expense in expenses if expense.date.strftime('%Y-%m') == last_month)
+    difference = current_month_total - last_month_total
+
+    return render_template('visualise.html', 
+                           avg_monthly_spend=avg_monthly_spend, 
+                           most_spent_category=most_spent_category, 
+                           difference=difference)
 
 @app.route("/api/expenses")
 @login_required
