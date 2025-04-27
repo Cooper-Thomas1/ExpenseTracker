@@ -121,7 +121,7 @@ def share():
 @app.route("/visualise")
 @login_required
 def visualise():
-    expenses = Expense.query.all()
+    expenses = Expense.query.filter_by(user_id=current_user.id).all()
 
     total_spent = sum(expense.amount for expense in expenses)
     months = len(set(expense.date.strftime('%Y-%m') for expense in expenses))
