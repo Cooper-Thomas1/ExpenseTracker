@@ -53,6 +53,11 @@ def logout():
 def forgot_password():
     return render_template("forgot-password.html")
 
+@app.route("/expense-history")
+@login_required
+def expense_history():
+    return render_template("expense-history.html")
+
 @app.route("/upload", methods=['GET', 'POST'])
 @login_required
 def upload():
