@@ -15,10 +15,29 @@
       <button type="button" class="dropbutton dropdown-toggle", id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
         This Week
       </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <li><a class="dropdown-item" href="#">This Day</a></li>
+        <li><a class="dropdown-item" href="#">This Month</a></li>
+        <li><a class="dropdown-item" href="#">This Year</a></li>
+      </ul>
     </div>
   </div>
-
-  <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+  <div class="graph-container">
+    <div class="card shadow p-3 mb-3 bg-white rounded-3 h-100">
+      <div class="lead">Expenditure Over Time</div>
+      <canvas class="my-1 w-100 h-100" id="myChart"></canvas>
+    </div>
+    <div class="card shadow p-3 mb-3 bg-white rounded-3 h-100">
+      <div class="lead">Expenditure by Category</div>
+      <canvas class="my-1 w-100 h-100" id="myChart2"></canvas>
+    </div>
+  </div>
+  <div class="col-md-12 justify-content-between align-items-center rounded-3" style="display:flex">
+    <div class="card w-100 shadow p-3 mb-5 bg-white rounded">
+      <div class="lead">Total Expense</div>
+      <h2 class="card-title">{{ "${:,.2f}".format(totalexpenses) }}</h2>
+    </div>
+  </div>
 
   <h2>Recent Expense History</h2>
   <div class="table-responsive small shadow p-3 mb-5 bg-white rounded">

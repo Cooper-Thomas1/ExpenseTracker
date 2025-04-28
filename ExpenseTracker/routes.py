@@ -17,7 +17,8 @@ def home():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    return render_template("dashboard.html")
+    totalexpenses = Expense.query.filter_by(user_id=current_user.id).all()
+    return render_template("dashboard.html", totalexpenses=sum([totalexpense.amount for totalexpense in totalexpenses]))
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -189,7 +190,7 @@ def visualise():
 @login_required
 def api_expenses():
     expenses = [
-        {"date": expense.date.strftime('%Y-%m-%d'), "amount": expense.amount}
+        {"date": expense.date.strftime('%Y-%m-%d'), "amount": expense.amount, "category":expense.category}
         for expense in current_user.expenses
     ]
     return jsonify(expenses)
