@@ -1,2 +1,52 @@
 {% extends "base.html" %}
-<p><em>Sharing options will be added shortly.</em></p>
+{% block content %}
+<main class="col-md-12 ms-sm-auto col-lg-12 px-md-4">
+  <h3>Share Expenses with Another User</h3>
+  <form method="POST" action="{{ url_for('share') }}">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+      <label for="username">Username</label>
+      {{ form.username(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      <label for="start_date">Expenses Start Date</label>
+      {{ form.start_date(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      <label for="end_date">Expenses End Date</label>
+      {{ form.end_date(class="form-control") }}
+    </div>
+    <button type="submit" class="btn btn-primary">Share</button>
+  </form>
+
+  <h3>Shared Expenses</h1>
+    <div class="table-responsive small">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Username</th>
+              <th scope="col">Start Date</th>
+              <th scope="col">End Date</th>
+              <th scope="col">Remove Access</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for shared_expense in shared_expenses %}
+            <tr>
+              <td>{{ shared_expense["username"] }}</td>
+              <td>{{ shared_expense["start_date"].strftime('%Y-%m-%d') }}</td>
+              <td>{{ shared_expense["end_date"].strftime('%Y-%m-%d') }}</td>
+              <td>
+                  <form method="POST" action="{{ url_for('delete_shared_expense', shared_expense_id=shared_expense['id']) }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-danger btn-sm">Remove Access</button>
+                  </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+    </div>
+</main>
+
+{% endblock %}
