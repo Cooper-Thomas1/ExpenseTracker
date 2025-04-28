@@ -31,3 +31,6 @@
     background-color: #6c757d; 
     border-color: #6c757d;
 }
+.dashboard-container table tr:nth-child(n+6) {
+    display:none;
+  }
