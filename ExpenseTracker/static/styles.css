@@ -52,3 +52,87 @@ margin: 5px 0;
     display: flex;
     justify-content: center;
 }
+
+.hero-section {
+    background: #0f2277;
+    color: white;
+    border-radius: 16px;
+}
+  
+.hero-section h1 {
+    font-weight: bold;
+}
+  
+.hero-section p {
+    font-size: 1.2rem;
+}
+  
+.hero-section .btn-primary {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.2rem;
+    border-radius: 8px;
+}
+  
+.features-section .card {
+    border: none;
+    border-radius: 16px;
+    background-color: #ffffff;
+}
+  
+.features-section .card-title {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+  
+.features-section .card-text {
+    font-size: 1rem;
+    color: #6c757d;
+}
+  
+.testimonials-section blockquote {
+    font-size: 1.2rem;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+}
+  
+.testimonials-section footer {
+    font-size: 1rem;
+    color: #6c757d;
+}
+  
+.helpful-tips-section ul {
+    padding: 0;
+    list-style: none;
+}
+  
+.helpful-tips-section li {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+  
+.helpful-tips-section i {
+    margin-right: 0.5rem;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-image: none;
+  width: 50px;
+  height: 50px;
+}
+
+.carousel-control-prev-icon::after {
+  content: '\2190'; 
+  font-size: 3rem;
+  color: black; 
+  display: block;
+  text-align: center;
+}
+
+.carousel-control-next-icon::after {
+  content: '\2192';
+  font-size: 3rem;
+  color: black;
+  display: block;
+  text-align: center;
+}
