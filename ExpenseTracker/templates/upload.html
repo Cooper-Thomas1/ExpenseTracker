@@ -21,7 +21,19 @@
       <label for="description">Description</label>
       {{ manual_form.description(class="form-control") }}
     </div>
-    <button type="submit" class="btn btn-primary">Add Expense</button>
+    <button type="submit" class="btn btn-primary" name="manual_submit">Add Expense</button>
+  </form>
+
+  <!-- File Upload Form -->
+  <hr>
+  <h3>Upload an Expense File</h3>
+  <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data">
+    {{ file_form.hidden_tag() }}
+    <div class="mb-3">
+      <label for="file">Choose a File</label>
+      {{ file_form.file(class="form-control") }}
+    </div>
+    <button type="submit" class="btn btn-success" name="file_submit">Upload File</button>
   </form>
 </div>
 {% endblock %}

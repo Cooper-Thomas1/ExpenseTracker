@@ -19,6 +19,8 @@ app.config['MAIL_USERNAME'] = 'b1a4e9cd65eafb'
 app.config['MAIL_PASSWORD'] = '4cc1ab0d348fc9'
 mail = Mail(app)
 
+app.config['UPLOAD_FOLDER'] = 'uploads'
+
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
