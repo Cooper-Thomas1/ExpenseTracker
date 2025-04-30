@@ -1,37 +1,93 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="text-center">
-    <h1>Welcome to ExpenseTracker</h1>
-    <p>Track, Analyse, and Share your Expenses with Ease.</p>
-    <a href="{{ url_for('login') }}">Login</a>
+<div class="container mt-5">
+  <div class="hero-section text-center p-5 mb-5 rounded shadow">
+    <h1 class="display-4">Welcome to ExpenseTracker</h1>
+    <p class="lead">Track, Analyse, and Share Your Expenses with Ease</p>
+    <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg">Get Started</a>
   </div>
-  <div class="features text-center">
-    <h4>Why Choose ExpenseTracker?</h2>
-    <ul>
-      <li>Track your expenses effortlessly.</li>
-      <li>Analyze spending patterns with detailed reports.</li>
-      <li>Collaborate and share budgets with others.</li>
-    </ul>
-  </div>
-  <div class="testimonials text-center">
-    <h4>What Our Users Say</h2>
-    <blockquote>
-      "ExpenseTracker has completely changed the way I manage my finances!" - Jane Doe
-    </blockquote>
-    <blockquote>
-      "A must have tool for anyone serious about budgeting." - John Smith
-    </blockquote>
-  </div>
-  <div class="helpful-tips text-center">
-    <h4>Helpful Tips to Save Money</h2>
-    <ul>
-      <li>Create a monthly budget and stick to it.</li>
-      <li>Track your daily expenses to identify unnecessary spending.</li>
-      <li>Set financial goals and prioritize saving for them.</li>
-      <li>Cook at home instead of eating out to save on food costs.</li>
-      <li>Take advantage of discounts, coupons, and cashback offers.</li>
-    </ul>
-  </div>
-{% endblock %}
 
+  <div class="features-section text-center mb-5">
+    <h2 class="mb-4">Why Choose ExpenseTracker?</h2>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card shadow-sm p-3 mb-4">
+          <h5 class="card-title">Effortless Tracking</h5>
+          <p class="card-text">Track your expenses effortlessly with our intuitive interface.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card shadow-sm p-3 mb-4">
+          <h5 class="card-title">Detailed Reports</h5>
+          <p class="card-text">Analyse spending patterns with detailed and interactive reports.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card shadow-sm p-3 mb-4">
+          <h5 class="card-title">Collaborate & Share</h5>
+          <p class="card-text">Collaborate and share budgets with family and friends.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="testimonials-section text-center mb-5">
+    <h2 class="mb-4">What Our Users Say</h2>
+    <blockquote class="blockquote">
+      <p>"ExpenseTracker has completely changed the way I manage my finances!"</p>
+      <footer class="blockquote-footer">Jane Doe</footer>
+    </blockquote>
+    <blockquote class="blockquote">
+      <p>"A must-have tool for anyone serious about budgeting."</p>
+      <footer class="blockquote-footer">John Smith</footer>
+    </blockquote>
+  </div>
+
+  <div class="helpful-tips-section text-center p-5" style="background-color: #f8f9fa; border-radius: 16px;">
+    <h2 class="mb-4">Helpful Tips to Save Money</h2>
+    <div id="helpfulTipsCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <div class="card shadow-sm p-4 mx-auto" style="max-width: 600px;">
+            <i class="fas fa-check-circle text-success fa-2x mb-3"></i>
+            <p class="card-text">Create a monthly budget and stick to it.</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="card shadow-sm p-4 mx-auto" style="max-width: 600px;">
+            <i class="fas fa-chart-line text-primary fa-2x mb-3"></i>
+            <p class="card-text">Track your daily expenses to identify unnecessary spending.</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="card shadow-sm p-4 mx-auto" style="max-width: 600px;">
+            <i class="fas fa-bullseye text-warning fa-2x mb-3"></i>
+            <p class="card-text">Set financial goals and prioritize saving for them.</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="card shadow-sm p-4 mx-auto" style="max-width: 600px;">
+            <i class="fas fa-utensils text-danger fa-2x mb-3"></i>
+            <p class="card-text">Cook at home instead of eating out to save on food costs.</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="card shadow-sm p-4 mx-auto" style="max-width: 600px;">
+            <i class="fas fa-tags text-info fa-2x mb-3"></i>
+            <p class="card-text">Take advantage of discounts, coupons, and cashback offers.</p>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#helpfulTipsCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#helpfulTipsCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+</div>
+{% endblock %}
