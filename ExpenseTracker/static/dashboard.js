@@ -2,62 +2,26 @@
   fetch('/api/expenses')
     .then(response => response.json())
     .then(data => {
-      const labels = data.map(expense => expense.date); // Extract dates for labels
-      const amounts = data.map(expense => expense.amount); // Extract amounts for data points
-      const categories = data.map(expense => expense.category);
-      
-      //bit messy, functionally should work
-      var food = [];
-      var transport = [];
-      var entertainment = [];
-      var misc = [];
-      var utilities = [];
-      for ( i=0; i < categories.length; i++ ){
-        if ( categories[i] == "food" ){
-          food.push( i );
+      const categorySums = {};
+      data.forEach(expense => {
+        const category = expense.category; // Use the category directly
+        if (!categorySums[category]) {
+          categorySums[category] = 0;
         }
-        else if ( categories[i] == "transport" ){
-          transport.push( i );
-        }
-        else if (  categories[i] == "entertainment" ){
-          entertainment.push( i );
-        }
-        else if ( categories[i] == "misc" ){
-          misc.push( i );
-        }
-        else if ( categories[i] == "utilities" ){
-          utilities.push( i );
-        }
-      }
-      foodsum = [];
-      for ( i=0; i < food.length; i++ ){
-        foodsum.push(amounts[food[i]]);
-      }
-      transportsum = [];
-      for ( i=0; i < transport.length; i++ ){
-        transportsum.push(amounts[transport[i]]);
-      }
-      entertainmentsum = [];
-      for ( i=0; i < entertainment.length; i++ ){
-        entertainmentsum.push(amounts[entertainment[i]]);
-      }
-      miscsum = [];
-      for ( i=0; i < misc.length; i++ ){
-        miscsum.push(amounts[misc[i]]);
-      }
-      utilitiessum = [];
-      for ( i=0; i < utilities.length; i++ ){
-        utilitiessum.push(amounts[utilities[i]]);
-      }
-      
+        categorySums[category] += expense.amount;
+      });
 
+      const doughnutLabels = Object.keys(categorySums); // Categories as labels
+      const doughnutData = Object.values(categorySums); // Sums as data points
+      
+      // Line Chart
       const ctx = document.getElementById('myChart');
       new Chart(ctx, {
         type: 'line',
         data: {
-          labels: labels,
+          labels: data.map(expense => expense.date), // Dates as labels
           datasets: [{
-            data: amounts,
+            data: data.map(expense => expense.amount), // Amounts as data points
             lineTension: 0,
             backgroundColor: 'transparent',
             borderColor: '#007bff',
@@ -72,13 +36,15 @@
           }
         }
       });
+
+      // Doughnut Chart
       const ctx2 = document.getElementById('myChart2');
       new Chart(ctx2, {
         type: 'doughnut',
         data: {
-          labels: ['Food', 'Transport', 'Entertainment', 'Misc', 'Utilities'],
+          labels: doughnutLabels,
           datasets: [{
-            data: [foodsum.reduce((a,b) => a + b, 0),transportsum.reduce((a,b) => a+b,0), entertainmentsum.reduce((a,b) => a + b, 0), miscsum.reduce((a,b) => a + b, 0), utilitiessum.reduce((a,b) => a + b, 0)],
+            data: doughnutData,
             backgroundColor: [
               'rgb(255, 99, 132)',
               'rgb(54, 162, 235)',

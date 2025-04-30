@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, FloatField, DateField, SubmitField, DecimalField, SelectField
+from wtforms import StringField, PasswordField, FloatField, DateField, SubmitField, DecimalField, SelectField, FileField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from ExpenseTracker.models import User
 
@@ -39,6 +39,10 @@ class ManualExpenseForm(FlaskForm):
     amount = DecimalField('Amount', validators=[DataRequired()])
     description = StringField('Description', validators=[Length(max=200)])
     submit = SubmitField('Add Expense')
+
+class FileExpenseForm(FlaskForm):
+    file = FileField('Expense File', validators=[DataRequired()])
+    submit = SubmitField('Upload')
 
 class ForgotPasswordForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()], render_kw={"placeholder": "Enter your email"})

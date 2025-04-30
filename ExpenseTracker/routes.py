@@ -1,10 +1,13 @@
-from flask import render_template, url_for, flash, redirect, jsonify
+from flask import render_template, url_for, flash, redirect, jsonify, request
 from ExpenseTracker import app, db, bcrypt, mail
-from ExpenseTracker.forms import RegistrationForm, LoginForm, ManualExpenseForm, ForgotPasswordForm, ResetPasswordForm, ShareForm
+from ExpenseTracker.forms import RegistrationForm, LoginForm, ManualExpenseForm, FileExpenseForm, ForgotPasswordForm, ResetPasswordForm, ShareForm
 from ExpenseTracker.models import User, Expense, SharedExpense
 from flask_login import login_user, logout_user, login_required, current_user
 from datetime import datetime, timedelta
 from flask_mail import Message
+from werkzeug.utils import secure_filename
+import csv
+
 
 @app.route("/")
 def index():
@@ -97,23 +100,63 @@ def expense_history():
     expenses = Expense.query.filter_by(user_id=current_user.id).all()
     return render_template("expense-history.html", expenses=expenses)
 
+# Function to process the uploaded expense file
+def process_expense_file(file_path):
+    valid_categories = {'food', 'transport', 'entertainment', 'utilities', 'misc'}
+
+    try:
+        with open(file_path, 'r') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                category = row['category'].lower()
+                if category not in valid_categories:
+                    category = 'misc'  # Map invalid categories to 'misc'
+
+                expense = Expense(
+                    date=datetime.strptime(row['date'], '%Y-%m-%d'),
+                    category=category,
+                    amount=float(row['amount']),
+                    description=row['description'],
+                    user_id=current_user.id
+                )
+                db.session.add(expense)
+            db.session.commit()
+    except Exception as e:
+        flash(f'Error processing file: {e}', 'danger')
+
 @app.route("/upload", methods=['GET', 'POST'])
 @login_required
 def upload():
-    form = ManualExpenseForm()
-    if form.validate_on_submit():
+    manual_form = ManualExpenseForm()
+    file_form = FileExpenseForm()
+
+    # Handle manual expense form submission
+    if manual_form.validate_on_submit() and 'manual_submit' in request.form:
         expense = Expense(
-            date=form.date.data,
-            category=form.category.data,
-            amount=form.amount.data,
-            description=form.description.data,
+            date=manual_form.date.data,
+            category=manual_form.category.data,
+            amount=manual_form.amount.data,
+            description=manual_form.description.data,
             user_id=current_user.id
         )
         db.session.add(expense)
         db.session.commit()
         flash('Expense added successfully!', 'success')
         return redirect(url_for('dashboard'))
-    return render_template('upload.html', manual_form=form)
+
+    # Handle file upload form submission
+    if file_form.validate_on_submit() and 'file_submit' in request.form:
+        file = file_form.file.data
+        if file:
+            filename = secure_filename(file.filename)
+            file.save(f"{app.config['UPLOAD_FOLDER']}/{filename}")
+            process_expense_file(f"{app.config['UPLOAD_FOLDER']}/{filename}")
+            flash('File uploaded successfully!', 'success')
+            return redirect(url_for('dashboard'))
+        else:
+            flash('No file selected!', 'danger')
+
+    return render_template('upload.html', manual_form=manual_form, file_form=file_form)
 
 @app.route("/share", methods=['GET', 'POST'])
 @login_required
@@ -190,7 +233,7 @@ def visualise():
 @login_required
 def api_expenses():
     expenses = [
-        {"date": expense.date.strftime('%Y-%m-%d'), "amount": expense.amount, "category":expense.category}
+        {"date": expense.date.strftime('%Y-%m-%d'), "amount": expense.amount, "category": expense.category}
         for expense in current_user.expenses
     ]
     return jsonify(expenses)
