@@ -14,3 +14,6 @@ venv/
 
 # Mac folder files
 .DS_Store
+
+# Ignore .env file
+.env
