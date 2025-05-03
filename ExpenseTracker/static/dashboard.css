@@ -1,6 +1,5 @@
 .dashboard-container {
-    display: flex;
-    flex-direction: column;
+    flex: 0 0 100%;
     max-width: 100%;
     margin-inline-start: auto;
     padding-left: 1.5rem;
@@ -40,7 +39,6 @@
     border: 1px solid rgb(172, 172, 172);
     border-radius: 0.25rem;
     color: black;
-    height: 2.5rem;
 }
 .dashboard-container .titlehead .btnprimary:hover {
     color: #fff;

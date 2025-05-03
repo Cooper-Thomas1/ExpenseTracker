@@ -239,24 +239,6 @@ def visualise():
 @app.route("/api/expenses")
 @login_required
 def api_expenses():
-    period = request.args.get('period', 'all')
-    now = date.today()
-
-    if period == 'week':
-        start_date = now - timedelta(days=7)
-    elif period == 'month':
-        start_date = now.replace(day=1) - timedelta(days=1)
-        start_date = start_date.replace(day=1)
-    elif period == 'year':
-        start_date = now.replace(year=now.year - 1)
-    else:
-        start_date = None
-
-    if start_date:
-        expenses = Expense.query.filter(Expense.user_id == current_user.id, Expense.date >= start_date).all()
-    else:
-        expenses = Expense.query.filter_by(user_id=current_user.id).all()
-        
     expenses = [
         {"date": expense.date.strftime('%Y-%m-%d'), "amount": expense.amount, "category": expense.category}
         for expense in current_user.expenses
