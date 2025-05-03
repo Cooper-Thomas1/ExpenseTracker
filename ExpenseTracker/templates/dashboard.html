@@ -11,16 +11,17 @@
       <div class="btn-group">
         <a href="{{ url_for('share') }}"><button type="button" class="btn btnprimary">Share</button></a>
         <button type="button" class="btn btnprimary">Export</button>
-      </div>
-      <button type="button" class="dropbutton dropdown-toggle", id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-        This Week
-      </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-        <li><a class="dropdown-item" href="#">This Day</a></li>
-        <li><a class="dropdown-item" href="#">This Month</a></li>
-        <li><a class="dropdown-item" href="#">This Year</a></li>
-      </ul>
-    </div>
+        <div class="dropdown mb-3">
+          <button class="btn btnprimary dropdown-toggle" type="button" id="timePeriodDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Select Time Period
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="timePeriodDropdown">
+            <li><a class="dropdown-item" href="#" onclick="filterExpenses('week')">Last Week</a></li>
+            <li><a class="dropdown-item" href="#" onclick="filterExpenses('month')">Last Month</a></li>
+            <li><a class="dropdown-item" href="#" onclick="filterExpenses('year')">Last Year</a></li>
+            <li><a class="dropdown-item" href="#" onclick="filterExpenses('all')">All Time</a></li>
+          </ul>
+        </div>
   </div>
   <div class="graph-container">
     <div class="card shadow p-3 mb-3 bg-white rounded-3 h-100">
