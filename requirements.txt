@@ -7,3 +7,4 @@ Flask-Mail
 python-dotenv
 email-validator
 itsdangerous
+python-dateutil

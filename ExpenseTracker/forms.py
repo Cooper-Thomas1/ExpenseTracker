@@ -1,7 +1,9 @@
 from flask_wtf import FlaskForm
+from flask import flash
 from wtforms import StringField, PasswordField, FloatField, DateField, SubmitField, DecimalField, SelectField, FileField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from ExpenseTracker.models import User
+from datetime import date
 
 class RegistrationForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired(), Length(min=2, max=20)], render_kw={"placeholder": "Username"})
@@ -39,6 +41,11 @@ class ManualExpenseForm(FlaskForm):
     amount = DecimalField('Amount', validators=[DataRequired()])
     description = StringField('Description', validators=[Length(max=200)])
     submit = SubmitField('Add Expense')
+
+    def validate_date(self, date_field):
+        if date_field.data > date.today():
+            flash('The date cannot be in the future.', 'danger')
+            raise ValidationError('The date cannot be in the future.')
 
 class FileExpenseForm(FlaskForm):
     file = FileField('Expense File', validators=[DataRequired()])

@@ -4,8 +4,10 @@ from ExpenseTracker.forms import RegistrationForm, LoginForm, ManualExpenseForm,
 from ExpenseTracker.models import User, Expense, SharedExpense
 from flask_login import login_user, logout_user, login_required, current_user
 from datetime import datetime, timedelta
+from dateutil.parser import parse
 from flask_mail import Message
 from werkzeug.utils import secure_filename
+from datetime import date
 import csv
 
 
@@ -100,27 +102,61 @@ def expense_history():
     expenses = Expense.query.filter_by(user_id=current_user.id).all()
     return render_template("expense-history.html", expenses=expenses)
 
-# Function to process the uploaded expense file
-def process_expense_file(file_path):
-    valid_categories = {'food', 'transport', 'entertainment', 'utilities', 'misc'}
+BANK_HEADER_MAP = {
+    'transaction date': 'date',
+    'date': 'date',
+    'amount': 'amount',
+    'value': 'amount',
+    'description': 'description',
+    'details': 'description',
+    'narration': 'description',
+    'type': 'category',
+    'category': 'category'
+}
 
+VALID_CATEGORIES = {'food', 'transport', 'entertainment', 'utilities', 'misc'}
+
+def normalize_headers(header_row):
+    return [BANK_HEADER_MAP.get(h.strip().lower(), h.strip().lower()) for h in header_row]
+
+def process_expense_file(file_path):
     try:
         with open(file_path, 'r') as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                category = row['category'].lower()
-                if category not in valid_categories:
-                    category = 'misc'  # Map invalid categories to 'misc'
+            reader = csv.reader(file)
+            original_headers = next(reader)
+            headers = normalize_headers(original_headers)
+            DictReader = csv.DictReader(file, fieldnames=headers)
 
-                expense = Expense(
-                    date=datetime.strptime(row['date'], '%Y-%m-%d'),
-                    category=category,
-                    amount=float(row['amount']),
-                    description=row['description'],
-                    user_id=current_user.id
-                )
-                db.session.add(expense)
-            db.session.commit()
+            skipped_rows = 0
+            for idx, row in enumerate(DictReader, start=2):
+                try:
+                    if not row.get('date') or not row.get('amount'):
+                        raise ValueError("Missing required fields.")
+
+                    category = row.get('category', 'misc').strip().lower()
+                    if category not in VALID_CATEGORIES:
+                        category = 'misc'
+
+                    expense = Expense(
+                        date=parse(row['date'], dayfirst=True),
+                        amount=float(row['amount']),
+                        description=row.get('description', '').strip(),
+                        category=category,
+                        user_id=current_user.id
+                    )
+                    db.session.add(expense)
+                except Exception as e:
+                    skipped_rows += 1
+                    flash(f"Skipped row {idx} due to error: {e}", 'warning')
+
+                db.session.commit()
+
+                if skipped_rows == 0:
+                    flash("File processed successfully!", "success")
+                else:
+                    flash(f"Processed with {skipped_rows} row(s) skipped.", "info")
+
+
     except Exception as e:
         flash(f'Error processing file: {e}', 'danger')
 
