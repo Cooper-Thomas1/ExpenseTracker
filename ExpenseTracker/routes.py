@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from dateutil.parser import parse
 from flask_mail import Message
 from werkzeug.utils import secure_filename
+from datetime import date
 import csv
 
 
@@ -154,6 +155,7 @@ def process_expense_file(file_path):
                     flash("File processed successfully!", "success")
                 else:
                     flash(f"Processed with {skipped_rows} row(s) skipped.", "info")
+
 
     except Exception as e:
         flash(f'Error processing file: {e}', 'danger')

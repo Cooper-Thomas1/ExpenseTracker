@@ -1,7 +1,12 @@
+let lineChart, doughnutChart;
+
 (() => {
   fetch('/api/expenses')
     .then(response => response.json())
     .then(data => {
+      // Sort data by date
+      data.sort((a, b) => new Date(a.date) - new Date(b.date));
+      
       const categorySums = {};
       data.forEach(expense => {
         const category = expense.category; // Use the category directly
@@ -16,7 +21,7 @@
       
       // Line Chart
       const ctx = document.getElementById('myChart');
-      new Chart(ctx, {
+      lineChart = new Chart(ctx, {
         type: 'line',
         data: {
           labels: data.map(expense => expense.date), // Dates as labels
@@ -39,7 +44,7 @@
 
       // Doughnut Chart
       const ctx2 = document.getElementById('myChart2');
-      new Chart(ctx2, {
+      doughnutChart = new Chart(ctx2, {
         type: 'doughnut',
         data: {
           labels: doughnutLabels,
@@ -66,3 +71,20 @@
       console.error('Error fetching expense data:', error);
     });
 })();
+
+document.getElementById('downloadBothCharts').addEventListener('click', () => {
+  if (lineChart && doughnutChart) {
+    const lineLink = document.createElement('a');
+    lineLink.href = lineChart.toBase64Image();
+    lineLink.download = 'line_chart.png';
+    lineLink.click();
+
+    const doughnutLink = document.createElement('a');
+    doughnutLink.href = doughnutChart.toBase64Image();
+    doughnutLink.download = 'doughnut_chart.png';
+    doughnutLink.click();
+  } else {
+    console.error("Charts are not ready yet.");
+  }
+});
+
