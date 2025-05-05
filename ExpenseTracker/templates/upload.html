@@ -35,5 +35,24 @@
     </div>
     <button type="submit" class="btn btn-success" name="file_submit">Upload File</button>
   </form>
+  <div class="card mt-3">
+    <div class="card-header">
+        <a class="btn btn-link text-dark" data-bs-toggle="collapse" href="#uploadGuidelines" role="button" aria-expanded="false" aria-controls="uploadGuidelines">
+            Show Upload Guidelines
+        </a>
+    </div>
+    <div class="collapse" id="uploadGuidelines">
+        <div class="card-body">
+            <h5>Upload Guidelines</h5>
+            <ul>
+                <li>Accepted formats: <strong>.csv</strong></li>
+                <li>Required fields: <code>date</code>, <code>amount</code></li>
+                <li>Optional fields: <code>description</code>, <code>category</code></li>
+                <li>Flexible headers supported from most Australian banks</li>
+                <li>Date formats like <code>DD/MM/YYYY</code> or <code>YYYY-MM-DD</code> are accepted</li>
+            </ul>
+        </div>
+    </div>
+</div>
 </div>
 {% endblock %}
