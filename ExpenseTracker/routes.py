@@ -6,6 +6,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from datetime import datetime, timedelta
 from flask_mail import Message
 from werkzeug.utils import secure_filename
+from datetime import date
 import csv
 
 
@@ -111,6 +112,12 @@ def process_expense_file(file_path):
                 category = row['category'].lower()
                 if category not in valid_categories:
                     category = 'misc'  # Map invalid categories to 'misc'
+                
+                # Validate date
+                expense_date = datetime.strptime(row['date'], '%Y-%m-%d').date()
+                if expense_date > date.today():
+                    flash(f"Invalid date '{row['date']}' in file. Dates cannot be in the future.", 'danger')
+                    continue  # Skip invalid rows
 
                 expense = Expense(
                     date=datetime.strptime(row['date'], '%Y-%m-%d'),

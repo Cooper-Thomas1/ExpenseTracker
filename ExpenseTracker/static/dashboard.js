@@ -4,6 +4,9 @@ let lineChart, doughnutChart;
   fetch('/api/expenses')
     .then(response => response.json())
     .then(data => {
+      // Sort data by date
+      data.sort((a, b) => new Date(a.date) - new Date(b.date));
+      
       const categorySums = {};
       data.forEach(expense => {
         const category = expense.category; // Use the category directly
