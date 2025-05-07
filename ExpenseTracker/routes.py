@@ -151,9 +151,7 @@ def process_expense_file(file_path):
 
                 db.session.commit()
 
-                if skipped_rows == 0:
-                    flash("File processed successfully!", "success")
-                else:
+                if skipped_rows != 0:
                     flash(f"Processed with {skipped_rows} row(s) skipped.", "info")
 
 

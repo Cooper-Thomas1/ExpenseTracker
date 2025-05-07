@@ -62,55 +62,60 @@ async function fetchData() {
 }
 
 fetchData().then(data => {
-  // Sort data by date
-data.sort((a, b) => new Date(a.date) - new Date(b.date));
+  try {
+    // Sort data by date
+    data.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-var data1 = data.filter(item => {
-  const itemDate = new Date(item.date);
-  return itemDate >= new Date().setHours(0,0,0,0);
-});
-var data2 = data.filter(item => {
-  const itemDate = new Date(item.date);
-  return itemDate >= new Date((new Date()).setDate((new Date()).getDate() - (new Date()).getDate() + ((new Date()).getDate() === 0 ? -6 : 1))) && itemDate <= new Date();
-});
-var data3 = data.filter(item => {
-  const itemDate = new Date(item.date);
-  return itemDate >= new Date(new Date().getFullYear(), new Date().getMonth(), 1) && itemDate <= new Date();
-});
-var data4 = data.filter(item => {
-  const itemDate = new Date(item.date);
-  return itemDate >= new Date(new Date().getFullYear(), 0, 1) && itemDate <= new Date();
-});
+    var data1 = data.filter(item => {
+      const itemDate = new Date(item.date);
+      return itemDate >= new Date().setHours(0,0,0,0);
+    });
+    var data2 = data.filter(item => {
+      const itemDate = new Date(item.date);
+      return itemDate >= new Date((new Date()).setDate((new Date()).getDate() - (new Date()).getDate() + ((new Date()).getDate() === 0 ? -6 : 1))) && itemDate <= new Date();
+    });
+    var data3 = data.filter(item => {
+      const itemDate = new Date(item.date);
+      return itemDate >= new Date(new Date().getFullYear(), new Date().getMonth(), 1) && itemDate <= new Date();
+    });
+    var data4 = data.filter(item => {
+      const itemDate = new Date(item.date);
+      return itemDate >= new Date(new Date().getFullYear(), 0, 1) && itemDate <= new Date();
+    });
 
-function getCategoryData(currentdata) {
-  const categorySums = {};
-  currentdata.forEach(expense => {
-    const category = expense.category; // Use the category directly
-    if (!categorySums[category]) {
-      categorySums[category] = 0;
+    function getCategoryData(currentdata) {
+      const categorySums = {};
+      currentdata.forEach(expense => {
+        const category = expense.category; // Use the category directly
+        if (!categorySums[category]) {
+          categorySums[category] = 0;
+        }
+        categorySums[category] += expense.amount;
+      });
+      return categorySums;
     }
-    categorySums[category] += expense.amount;
-  });
-  return categorySums;
-}
 
-const doughnutLabels = Object.keys(getCategoryData(data)), doughnutData = Object.values(getCategoryData(data)); // Sums as data points
-const doughnutLabels1 = Object.keys(getCategoryData(data1)), doughnutData1 = Object.values(getCategoryData(data1));
-const doughnutLabels2 = Object.keys(getCategoryData(data2)), doughnutData2 = Object.values(getCategoryData(data2));
-const doughnutLabels3 = Object.keys(getCategoryData(data3)), doughnutData3 = Object.values(getCategoryData(data3));
-const doughnutLabels4 = Object.keys(getCategoryData(data4)), doughnutData4 = Object.values(getCategoryData(data4));
+    const doughnutLabels = Object.keys(getCategoryData(data)), doughnutData = Object.values(getCategoryData(data)); // Sums as data points
+    const doughnutLabels1 = Object.keys(getCategoryData(data1)), doughnutData1 = Object.values(getCategoryData(data1));
+    const doughnutLabels2 = Object.keys(getCategoryData(data2)), doughnutData2 = Object.values(getCategoryData(data2));
+    const doughnutLabels3 = Object.keys(getCategoryData(data3)), doughnutData3 = Object.values(getCategoryData(data3));
+    const doughnutLabels4 = Object.keys(getCategoryData(data4)), doughnutData4 = Object.values(getCategoryData(data4));
 
-lineChart.data.labels = data.map(expense => expense.date);
-lineChart.data.datasets[0].data = data.map(expense => expense.amount);
-lineChart.update();
+    lineChart.data.labels = data.map(expense => expense.date);
+    lineChart.data.datasets[0].data = data.map(expense => expense.amount);
+    lineChart.update();
 
-doughnutChart.data.labels = doughnutLabels;
-doughnutChart.data.datasets[0].data = doughnutData;
-doughnutChart.update();
+    doughnutChart.data.labels = doughnutLabels;
+    doughnutChart.data.datasets[0].data = doughnutData;
+    doughnutChart.update();
 
-alldata = data, dailydata = data1, weeklydata = data2, monthlydata = data3, yearlydata = data4;
-allcategory = doughnutLabels, dailycategory = doughnutLabels1, weeklycategory = doughnutLabels2, monthlycategory = doughnutLabels3, yearlycategory = doughnutLabels4;
-allcategorydata = doughnutData, dailycategorydata = doughnutData1, weeklycategorydata = doughnutData2, monthlycategorydata = doughnutData3, yearlycategorydata = doughnutData4;
+    alldata = data, dailydata = data1, weeklydata = data2, monthlydata = data3, yearlydata = data4;
+    allcategory = doughnutLabels, dailycategory = doughnutLabels1, weeklycategory = doughnutLabels2, monthlycategory = doughnutLabels3, yearlycategory = doughnutLabels4;
+    allcategorydata = doughnutData, dailycategorydata = doughnutData1, weeklycategorydata = doughnutData2, monthlycategorydata = doughnutData3, yearlycategorydata = doughnutData4;
+
+  } catch (error) {
+    console.error('Error processing data:', error);
+  }
 });
 
 document.getElementById('downloadBothCharts').addEventListener('click', () => {
