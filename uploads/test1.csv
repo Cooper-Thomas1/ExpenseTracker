@@ -1,6 +1,6 @@
-Date,amount
-2025-04-01,25.50
-2025-04-02,15.00
-03-04-2003,50.00
-2025-04-04100.00
-06-06-202420.00
+Date,category,amount,Description
+2025-04-01,Food,25.50,Lunch at a restaurant
+2025-04-02,transport,15.00,Bus ticket
+03-04-2003,Entertainment,50.00,Movie tickets
+2025-04-04,utilities,100.00,Electricity bill
+06-06-2024,Miscellaneous,20.00,Stationery
