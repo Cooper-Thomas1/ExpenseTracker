@@ -43,7 +43,7 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password, primary_saving_goal=form.primary_saving_goal.data)
         db.session.add(user)
         db.session.commit()
         flash('Your account has been created! You can now log in.', 'success')
@@ -220,7 +220,9 @@ def share():
         formatted_expenses.append({"id": shared_expense.id,
                                    "username": recipient_username, 
                                    "start_date": shared_expense.start_date, 
-                                   "end_date": shared_expense.end_date})
+                                   "end_date": shared_expense.end_date,
+                                   "created_at": shared_expense.created_at
+                                   })
     return render_template("share.html", form=form, shared_expenses=formatted_expenses)
 
 @app.route("/shared-with-me", methods=['GET'])
@@ -234,7 +236,7 @@ def shared_with_me():
         expenses = Expense.query.filter(Expense.user_id == shared_expense.sender_id, 
                                         Expense.date >= shared_expense.start_date,
                                         Expense.date <= shared_expense.end_date).all()
-        formatted_expenses.append({"username": sender_username, "expenses": expenses})
+        formatted_expenses.append({"username": sender_username, "expenses": expenses, "created_at": shared_expense.created_at})
 
     return render_template("shared-with-me.html", shared_expenses=formatted_expenses)
 

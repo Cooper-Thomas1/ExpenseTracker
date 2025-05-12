@@ -13,6 +13,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
+    primary_saving_goal = db.Column(db.String(120), nullable=True)
     expenses = db.relationship('Expense', backref='owner', lazy=True)
 
     def get_reset_token(self, expires_sec=1800):
@@ -42,3 +43,4 @@ class SharedExpense(db.Model):
     recipient_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     start_date = db.Column(db.DateTime, nullable=False)
     end_date = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))

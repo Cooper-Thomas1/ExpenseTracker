@@ -10,6 +10,7 @@ class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()], render_kw={"placeholder": "Email"})
     password = PasswordField('Password', validators=[DataRequired()], render_kw={"placeholder": "Password"})
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')], render_kw={"placeholder": "Confirm Password"})
+    primary_saving_goal = StringField('Primary Saving Goal', validators=[DataRequired()], render_kw={"placeholder": "Enter your primary saving goal"})
     submit = SubmitField('Sign Up')
 
     def validate_username(self, username):
