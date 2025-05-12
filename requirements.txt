@@ -4,6 +4,7 @@ Flask-SQLAlchemy
 Flask-Bcrypt
 Flask-Login
 Flask-Mail
+Flask-Migrate
 python-dotenv
 email-validator
 itsdangerous
