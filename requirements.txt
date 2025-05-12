@@ -8,3 +8,6 @@ python-dotenv
 email-validator
 itsdangerous
 python-dateutil
+pytest
+selenium
+webdriver-manager
