@@ -160,19 +160,34 @@ def test_reset_password_form_mismatch(app):
         assert not form.validate()
         assert 'Field must be equal to password.' in form.errors.get('confirm_password', [])
 
+
 # -------- ShareForm --------
 def test_share_form_valid(app):
     with app.test_request_context():
         form_data = {
-            'email': 'recipient@example.com'
+            'username': 'testUser',
+            'start_date': '2025-01-12',
+            'end_date': '2025-04-25'
         }
         form = ShareForm(data=form_data)
         assert form.validate()
 
-def test_share_form_invalid_email(app):
+def test_share_form_invalid_username(app):
     with app.test_request_context():
         form_data = {
-            'email': 'not-an-email'
+            'username': '123456789123456789123',
+            'start_date': '2025-01-12',
+            'end_date': '2025-04-25'
+        }
+        form = ShareForm(data=form_data)
+        assert not form.validate()
+
+def test_share_form_invalid_date(app):
+    with app.test_request_context():
+        form_data = {
+            'username': 'testUser',
+            'start_date': '2025-01-12',
+            'end_date': ''
         }
         form = ShareForm(data=form_data)
         assert not form.validate()
