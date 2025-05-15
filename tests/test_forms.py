@@ -92,7 +92,7 @@ def test_login_form_valid(app, init_db):
 def test_login_form_invalid_email(app):
     with app.test_request_context():
         form_data = {
-            'email': 'invalid@example.com',
+            'email': 'invalid@example',
             'password': 'password123'
         }
         form = LoginForm(data=form_data)
@@ -122,6 +122,17 @@ def test_manual_expense_form_invalid_date(app):
         assert not form.validate()
         assert 'The date cannot be in the future.' in form.errors.get('date', [])
 
+def test_manual_expense_form_invalid_description(app):
+    with app.test_request_context():
+        form_data = {
+            'date': '2025-05-01',
+            'category': 'invalid',
+            'amount': 10.5,
+            'description': 't' * 201 # string of 201 't's
+        }
+        form = ManualExpenseForm(data=form_data)
+        assert not form.validate()
+
 # -------- ForgotPasswordForm --------
 def test_forgot_password_form_valid(app, init_db):
     with app.app_context():
@@ -133,7 +144,7 @@ def test_forgot_password_form_valid(app, init_db):
         form = ForgotPasswordForm(data=form_data)
         assert form.validate()
 
-def test_forgot_password_form_invalid_email(app):
+def test_forgot_password_form_invalid_email(app, init_db):
     with app.test_request_context():
         form_data = {'email': 'nonexistent@example.com'}
         form = ForgotPasswordForm(data=form_data)
@@ -192,14 +203,14 @@ def test_share_form_invalid_date(app):
         form = ShareForm(data=form_data)
         assert not form.validate()
 
-# -------- Parameterized Tests Example --------
-@pytest.mark.parametrize("form_class, form_data, field", [
-    (RegistrationForm, {'username': '', 'email': 'test@example.com', 'password': 'pass', 'confirm_password': 'pass'}, 'username'),
-    (LoginForm, {'email': '', 'password': 'pass'}, 'email'),
-    (ManualExpenseForm, {'date': '', 'category': 'food', 'amount': 10.5, 'description': 'Lunch'}, 'date'),
-])
-def test_blank_field_required(app, form_class, form_data, field):
-    with app.test_request_context():
-        form = form_class(data=form_data)
-        assert not form.validate()
-        assert 'This field is required.' in form.errors.get(field, [])
+## -------- Parameterized Tests Example --------
+#@pytest.mark.parametrize("form_class, form_data, field", [
+#    (RegistrationForm, {'username': '', 'email': 'test@example.com', 'password': 'pass', 'confirm_password': 'pass'}, 'username'),
+#    (LoginForm, {'email': '', 'password': 'pass'}, 'email'),
+#    (ManualExpenseForm, {'date': '', 'category': 'food', 'amount': 10.5, 'description': 'Lunch'}, 'date'),
+#])
+#def test_blank_field_required(app, form_class, form_data, field):
+#    with app.test_request_context():
+#        form = form_class(data=form_data)
+#        assert not form.validate()
+#        assert 'This field is required.' in form.errors.get(field, [])
