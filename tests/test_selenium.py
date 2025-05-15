@@ -27,8 +27,8 @@ def test_register_valid_user(driver):
 
 def test_register_existing_username(driver):
     driver.get("http://127.0.0.1:5000/register")
-    driver.find_element(By.NAME, "username").send_keys("abc")  # assume 'abc' is an existing username
-    driver.find_element(By.NAME, "email").send_keys("abc@gmail.com")
+    driver.find_element(By.NAME, "username").send_keys("newuser")
+    driver.find_element(By.NAME, "email").send_keys("newuser@example.com")
     driver.find_element(By.NAME, "password").send_keys("abc")
     driver.find_element(By.NAME, "confirm_password").send_keys("abc")
     driver.find_element(By.NAME, "submit").click()
@@ -40,13 +40,13 @@ def test_register_existing_username(driver):
     
 def test_login_form(driver):
     driver.get("http://127.0.0.1:5000/login")
-    driver.find_element(By.NAME, "email").send_keys("abc@gmail.com")
+    driver.find_element(By.NAME, "email").send_keys("newuser@example.com")
     driver.find_element(By.NAME, "password").send_keys("abc")
     driver.find_element(By.NAME, "submit").click()
     WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element((By.TAG_NAME, "body"), "Logout"))
 
 def test_manual_expense_form(driver):
-    driver.get("http://127.0.0.1:5000/add_expense")
+    driver.get("http://127.0.0.1:5000/upload")
     driver.find_element(By.NAME, "date").send_keys("2025-05-01")
     driver.find_element(By.NAME, "category").send_keys("Food")
     driver.find_element(By.NAME, "amount").send_keys("15.75")
