@@ -43,7 +43,11 @@ class ManualExpenseForm(FlaskForm):
     submit = SubmitField('Add Expense')
 
     def validate_date(self, date_field):
-        parsed_date = datetime.strptime(date_field.data, '%Y-%m-%d').date()
+        if type(date_field.data) is str:
+            parsed_date = datetime.strptime(date_field.data, '%Y-%m-%d').date()
+        else:
+            parsed_date = date_field.data
+            
         if parsed_date > date.today():
             flash('The date cannot be in the future.', 'danger')
             raise ValidationError('The date cannot be in the future.')
