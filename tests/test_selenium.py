@@ -5,6 +5,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
+import os
 
 @pytest.fixture(scope="module")
 def driver():
@@ -28,6 +29,18 @@ def test_register_valid_user(driver):
 def test_register_existing_username(driver):
     driver.get("http://127.0.0.1:5000/register")
     driver.find_element(By.NAME, "username").send_keys("newuser")
+    driver.find_element(By.NAME, "email").send_keys("newuser@example.com")
+    driver.find_element(By.NAME, "password").send_keys("abc")
+    driver.find_element(By.NAME, "confirm_password").send_keys("abc")
+    driver.find_element(By.NAME, "submit").click()
+    # Confirm the user is still on the register page
+    assert WebDriverWait(driver, 10).until(
+        EC.url_contains("/register")
+    )
+
+def test_register_existing_email(driver):
+    driver.get("http://127.0.0.1:5000/register")
+    driver.find_element(By.NAME, "username").send_keys("newusertwo")
     driver.find_element(By.NAME, "email").send_keys("newuser@example.com")
     driver.find_element(By.NAME, "password").send_keys("abc")
     driver.find_element(By.NAME, "confirm_password").send_keys("abc")
@@ -119,3 +132,14 @@ def test_delete_shared_expense(driver):
     table_size = int(driver.find_element(By.TAG_NAME, "tbody").get_attribute("childElementCount"))
     assert table_size == 0 # should be 0 after deleting the expense
     print(table_size)
+
+def test_upload_expenses(driver):
+    driver.get("http://127.0.0.1:5000/upload")
+    file_input = driver.find_element(By.CSS_SELECTOR, "input[type=file]")
+    file_input.send_keys(os.path.abspath("uploads/test1.csv"))
+    driver.find_element(By.NAME, "file_submit").click()
+    # successful upload redirects to the dashboard
+    assert WebDriverWait(driver, 10).until(
+        EC.url_contains("/dashboard")
+    )
+
