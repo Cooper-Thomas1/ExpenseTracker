@@ -21,6 +21,7 @@ def test_register_valid_user(driver):
     driver.find_element(By.NAME, "email").send_keys("newuser@example.com")
     driver.find_element(By.NAME, "password").send_keys("abc")
     driver.find_element(By.NAME, "confirm_password").send_keys("abc")
+    driver.find_element(By.NAME, "primary_saving_goal").send_keys("new car")
     driver.find_element(By.NAME, "submit").click()
     assert WebDriverWait(driver, 10).until(
         EC.url_contains("/login")
@@ -32,6 +33,7 @@ def test_register_existing_username(driver):
     driver.find_element(By.NAME, "email").send_keys("newuser@example.com")
     driver.find_element(By.NAME, "password").send_keys("abc")
     driver.find_element(By.NAME, "confirm_password").send_keys("abc")
+    driver.find_element(By.NAME, "primary_saving_goal").send_keys("new car")
     driver.find_element(By.NAME, "submit").click()
     # Confirm the user is still on the register page
     assert WebDriverWait(driver, 10).until(
@@ -44,6 +46,7 @@ def test_register_existing_email(driver):
     driver.find_element(By.NAME, "email").send_keys("newuser@example.com")
     driver.find_element(By.NAME, "password").send_keys("abc")
     driver.find_element(By.NAME, "confirm_password").send_keys("abc")
+    driver.find_element(By.NAME, "primary_saving_goal").send_keys("new car")
     driver.find_element(By.NAME, "submit").click()
     # Confirm the user is still on the register page
     assert WebDriverWait(driver, 10).until(
@@ -79,6 +82,7 @@ def test_share_valid_username(driver):
     driver.find_element(By.NAME, "email").send_keys("shareuser@example.com")
     driver.find_element(By.NAME, "password").send_keys("abc")
     driver.find_element(By.NAME, "confirm_password").send_keys("abc")
+    driver.find_element(By.NAME, "primary_saving_goal").send_keys("new car")
     driver.find_element(By.NAME, "submit").click()
     assert WebDriverWait(driver, 10).until(
         EC.url_contains("/login")

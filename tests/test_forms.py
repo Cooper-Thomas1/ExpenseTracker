@@ -38,7 +38,8 @@ def test_registration_form_valid(app, init_db):
             'username': 'testuser',
             'email': 'testuser@example.com',
             'password': 'password123',
-            'confirm_password': 'password123'
+            'confirm_password': 'password123',
+            'primary_saving_goal': 'new car'
         }
         form = RegistrationForm(data=form_data)
         assert form.validate()
@@ -53,7 +54,8 @@ def test_registration_form_username_taken(app, init_db):
             'username': 'existinguser',
             'email': 'testuser@example.com',
             'password': 'password123',
-            'confirm_password': 'password123'
+            'confirm_password': 'password123',
+            'primary_saving_goal': 'new car'
         }
         form = RegistrationForm(data=form_data)
         assert not form.validate()
@@ -69,7 +71,8 @@ def test_registration_form_email_taken(app, init_db):
             'username': 'newuser',
             'email': 'existing@example.com',
             'password': 'password123',
-            'confirm_password': 'password123'
+            'confirm_password': 'password123',
+            'primary_saving_goal': 'new car'
         }
         form = RegistrationForm(data=form_data)
         assert not form.validate()
@@ -202,15 +205,3 @@ def test_share_form_invalid_date(app):
         }
         form = ShareForm(data=form_data)
         assert not form.validate()
-
-## -------- Parameterized Tests Example --------
-#@pytest.mark.parametrize("form_class, form_data, field", [
-#    (RegistrationForm, {'username': '', 'email': 'test@example.com', 'password': 'pass', 'confirm_password': 'pass'}, 'username'),
-#    (LoginForm, {'email': '', 'password': 'pass'}, 'email'),
-#    (ManualExpenseForm, {'date': '', 'category': 'food', 'amount': 10.5, 'description': 'Lunch'}, 'date'),
-#])
-#def test_blank_field_required(app, form_class, form_data, field):
-#    with app.test_request_context():
-#        form = form_class(data=form_data)
-#        assert not form.validate()
-#        assert 'This field is required.' in form.errors.get(field, [])
