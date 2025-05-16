@@ -1,3 +1,18 @@
+<<<<<<< HEAD
+Flask
+Flask-WTF
+Flask-SQLAlchemy
+Flask-Bcrypt
+Flask-Login
+Flask-Mail
+python-dotenv
+email-validator
+itsdangerous
+python-dateutil
+pytest
+selenium
+webdriver-manager
+=======
 Flask
 Flask-WTF
 Flask-SQLAlchemy
@@ -9,3 +24,4 @@ python-dotenv
 email-validator
 itsdangerous
 python-dateutil
+>>>>>>> main
