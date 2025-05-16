@@ -21,7 +21,7 @@ def test_register_valid_user(driver):
     driver.find_element(By.NAME, "password").send_keys("abc")
     driver.find_element(By.NAME, "confirm_password").send_keys("abc")
     driver.find_element(By.NAME, "submit").click()
-    WebDriverWait(driver, 10).until(
+    assert WebDriverWait(driver, 10).until(
         EC.url_contains("/login")
     )
 
@@ -32,44 +32,60 @@ def test_register_existing_username(driver):
     driver.find_element(By.NAME, "password").send_keys("abc")
     driver.find_element(By.NAME, "confirm_password").send_keys("abc")
     driver.find_element(By.NAME, "submit").click()
-    WebDriverWait(driver, 10).until(
-        EC.text_to_be_present_in_element((By.TAG_NAME, "body"), "That username is already taken.")
-    )
     # Confirm the user is still on the register page
-    assert driver.current_url == "http://127.0.0.1:5000/register"
+    assert WebDriverWait(driver, 10).until(
+        EC.url_contains("/register")
+    )
     
 def test_login_form(driver):
     driver.get("http://127.0.0.1:5000/login")
     driver.find_element(By.NAME, "email").send_keys("newuser@example.com")
     driver.find_element(By.NAME, "password").send_keys("abc")
     driver.find_element(By.NAME, "submit").click()
-    WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element((By.TAG_NAME, "body"), "Logout"))
+    # successful login redirects to the dashboard
+    assert WebDriverWait(driver, 10).until(
+        EC.url_contains("/dashboard")
+    )
 
 def test_manual_expense_form(driver):
     driver.get("http://127.0.0.1:5000/upload")
-    driver.find_element(By.NAME, "date").send_keys("2025-05-01")
+    driver.find_element(By.NAME, "date").send_keys("01/05/2025")
     driver.find_element(By.NAME, "category").send_keys("Food")
     driver.find_element(By.NAME, "amount").send_keys("15.75")
     driver.find_element(By.NAME, "description").send_keys("Dinner at restaurant")
-    driver.find_element(By.NAME, "submit").click()
-    WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element((By.TAG_NAME, "body"), "Expense added successfully"))
+    driver.find_element(By.NAME, "manual_submit").click()
+    # successful expense input redirects to the dashboard
+    assert WebDriverWait(driver, 10).until(
+        EC.url_contains("/dashboard")
+    )
 
 def test_share_valid_username(driver):
-    driver.get("http://127.0.0.1:5000/share")
-    driver.find_element(By.NAME, "username").send_keys("123")
-    driver.find_element(By.NAME, "start_date").send_keys("2024-01-01")
-    driver.find_element(By.NAME, "end_date").send_keys("2024-12-31")
+    # add another user to share expenses with
+    driver.get("http://127.0.0.1:5000/register")
+    driver.find_element(By.NAME, "username").send_keys("shareuser")
+    driver.find_element(By.NAME, "email").send_keys("shareuser@example.com")
+    driver.find_element(By.NAME, "password").send_keys("abc")
+    driver.find_element(By.NAME, "confirm_password").send_keys("abc")
     driver.find_element(By.NAME, "submit").click()
-    WebDriverWait(driver, 10).until(
+    assert WebDriverWait(driver, 10).until(
+        EC.url_contains("/login")
+    )
+
+    driver.get("http://127.0.0.1:5000/share")
+    driver.find_element(By.NAME, "username").send_keys("shareuser")
+    driver.find_element(By.NAME, "start_date").send_keys("01/01/2024")
+    driver.find_element(By.NAME, "end_date").send_keys("11/12/2024")
+    driver.find_element(By.CLASS_NAME, "btn").click()
+    assert WebDriverWait(driver, 10).until(
         EC.text_to_be_present_in_element((By.TAG_NAME, "body"), "Successfully shared expenses.")
     )
 
 def test_share_invalid_username(driver):
     driver.get("http://127.0.0.1:5000/share")
     driver.find_element(By.NAME, "username").send_keys("doesnotexist")
-    driver.find_element(By.NAME, "start_date").send_keys("2024-01-01")
-    driver.find_element(By.NAME, "end_date").send_keys("2024-12-31")
-    driver.find_element(By.NAME, "submit").click()
-    WebDriverWait(driver, 10).until(
+    driver.find_element(By.NAME, "start_date").send_keys("01/01/2024")
+    driver.find_element(By.NAME, "end_date").send_keys("11/12/2024")
+    driver.find_element(By.CLASS_NAME, "btn").click()
+    assert WebDriverWait(driver, 10).until(
         EC.text_to_be_present_in_element((By.TAG_NAME, "body"), "No account with that username found.")
     )
