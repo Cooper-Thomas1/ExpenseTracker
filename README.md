@@ -55,6 +55,8 @@ The goal is to make budgeting more engaging, effective, and intuitive through ri
    Open your browser and visit:  
    [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
+---
+
 ## Application Features
 
 ### Introductory View
@@ -86,31 +88,83 @@ The goal is to make budgeting more engaging, effective, and intuitive through ri
 - **Data Analysis:** Pandas, NumPy
 - **Visualisation:** Chart.js or Plotly.js for graphs and pie charts
 
+---
+
+## Running Tests
+
+1. **Update Environment Variables**  
+   In your `.env` or `.flaskenv` file, add the line `SELENIUM_TESTING=True`. This will make ExpenseTracker use a clean database to test with.
+
+2. **Start the Flask Server**  
+   In a terminal, start ExpenseTracker with the command `flask run`.
+
+3. **Run the Tests**  
+   In a different terminal to step 2, run the tests using the command `pytest`.
+
+To switch back to the default database, set `SELENIUM_TESTING=False` and restart the flask server.
+
 ## Directory Structure
 ```
 expense_tracker/
+│   .flaskenv
+│   .gitignore
+│   README.md
+│   requirements.txt
 │
-├── app/
-│   ├── __init__.py
-│   ├── routes.py
-│   ├── models.py
-│   ├── forms.py
+├───ExpenseTracker
+│   │   forms.py
+│   │   models.py
+│   │   routes.py
+│   │   __init__.py
+│   │
+│   ├───api
+│   │       expenses.py
+│   │
+│   ├───static
+│   │       dashboard.css
+│   │       dashboard.js
+│   │       forgot-password.css
+│   │       login.css
+│   │       register.css
+│   │       reset-password.css
+│   │       styles.css
+│   │
+│   └───templates
+│           base.html
+│           dashboard.html
+│           expense-history.html
+│           forgot-password.html
+│           home.html
+│           login.html
+│           privacy-policy.html
+│           register.html
+│           reset-password.html
+│           share.html
+│           shared-with-me.html
+│           terms-of-service.html
+│           upload.html
+│           visualise.html
 │
-├── templates/
-│   ├── base.html
-│   ├── dashboard.html
-|   ├── forgot-password.html
-│   ├── home.html
-│   ├── login.html
-|   ├── register.html
-│   ├── share.html
-│   ├── upload.html
-│   ├── visualise.html
+├───instance
+│       site.db
 │
-├── static/
-│   └── styles.css
+├───migrations
+│   │   alembic.ini
+│   │   env.py
+│   │   README
+│   │   script.py.mako
+│   │
+│   └───versions
+│           0038c57a8a69_add_profile_picture_to_user.py
+│           6dee1339c39e_add_created_at_to_sharedexpense.py
+│           ea28269e63b5_remove_profile_picture_and_add_primary_.py
 │
-├── venv/
-└── ...
+├───tests
+│       test_forms.py
+│       test_selenium.py
+│       __init__.py
+│
+└───uploads
+        test1.csv
 ```
 
