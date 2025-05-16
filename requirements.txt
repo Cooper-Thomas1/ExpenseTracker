@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Flask
 Flask-WTF
 Flask-SQLAlchemy
@@ -11,3 +12,16 @@ python-dateutil
 pytest
 selenium
 webdriver-manager
+=======
+Flask
+Flask-WTF
+Flask-SQLAlchemy
+Flask-Bcrypt
+Flask-Login
+Flask-Mail
+Flask-Migrate
+python-dotenv
+email-validator
+itsdangerous
+python-dateutil
+>>>>>>> main

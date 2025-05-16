@@ -27,6 +27,7 @@
               <th scope="col">Username</th>
               <th scope="col">Start Date</th>
               <th scope="col">End Date</th>
+              <th scope="col">Shared On</th>
               <th scope="col">Remove Access</th>
             </tr>
           </thead>
@@ -36,6 +37,7 @@
               <td>{{ shared_expense["username"] }}</td>
               <td>{{ shared_expense["start_date"].strftime('%Y-%m-%d') }}</td>
               <td>{{ shared_expense["end_date"].strftime('%Y-%m-%d') }}</td>
+              <td>{{ shared_expense["created_at"].strftime('%Y-%m-%d %H:%M:%S') }}</td>
               <td>
                   <form method="POST" action="{{ url_for('delete_shared_expense', shared_expense_id=shared_expense['id']) }}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">

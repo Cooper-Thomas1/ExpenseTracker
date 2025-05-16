@@ -12,6 +12,7 @@
                     <th scope="col">Category</th>
                     <th scope="col">Amount</th>
                     <th scope="col">Description</th>
+                    <th scope="col">Shared On</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -21,6 +22,7 @@
                           <td>{{ expense.category }}</td>
                           <td>${{ expense.amount }}</td>
                           <td>{{ expense.description }}</td>
+                          <td>{{ expense_data["created_at"].strftime('%Y-%m-%d %H:%M:%S') }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>

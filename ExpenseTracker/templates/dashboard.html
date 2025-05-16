@@ -34,10 +34,18 @@
       <canvas class="my-1 w-100 h-100" id="myChart2"></canvas>
     </div>
   </div>
+
   <div class="col-md-12 justify-content-between align-items-center rounded-3" style="display:flex">
     <div class="card w-100 shadow p-3 mb-5 bg-white rounded">
       <div class="lead">Total Expense</div>
       <h2 class="card-title">{{ "${:,.2f}".format(totalexpenses) }}</h2>
+    </div>
+  </div>
+
+  <div class="col-md-12 justify-content-between align-items-center rounded-3" style="display:flex">
+    <div class="card w-100 shadow p-3 mb-5 bg-white rounded">
+        <div class="lead">Primary Saving Goal</div>
+        <h2 class="card-title">{{ current_user.primary_saving_goal or "No goal set" }}</h2>
     </div>
   </div>
 
