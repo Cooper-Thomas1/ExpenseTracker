@@ -59,11 +59,11 @@ The goal is to make budgeting more engaging, effective, and intuitive through ri
 
 ### Introductory View
 - Landing page with an overview of the app
-- Register/Login to access personalized tracking
+- Register/Login to access personalised tracking
 
 ### Upload Data View
 - Users can upload expense files (CSV/JSON) or manually input expenses
-- Data categories include: food, transport, bills, subscriptions, etc.
+- Data categories include: food, transport, bills, misc, etc.
 
 ### Visualise Data View
 - Interactive charts and graphs showing:
@@ -84,7 +84,7 @@ The goal is to make budgeting more engaging, effective, and intuitive through ri
 - **Backend:** Python, Flask, Flask-WTF, Flask-Login, SQLAlchemy, SQLite
 - **Frontend:** HTML5, CSS, JavaScript, Bootstrap, jQuery, AJAX
 - **Data Analysis:** Pandas, NumPy
-- **Visualization:** Chart.js or Plotly.js for graphs and pie charts
+- **Visualisation:** Chart.js or Plotly.js for graphs and pie charts
 
 ## Directory Structure
 ```
