@@ -89,3 +89,33 @@ def test_share_invalid_username(driver):
     assert WebDriverWait(driver, 10).until(
         EC.text_to_be_present_in_element((By.TAG_NAME, "body"), "No account with that username found.")
     )
+
+def test_delete_expense(driver):
+    driver.get("http://127.0.0.1:5000/expense-history")
+    table_size = int(driver.find_element(By.TAG_NAME, "tbody").get_attribute("childElementCount"))
+    assert table_size == 1 # should be 1 after the previous tests
+    print(table_size)
+    
+    driver.find_element(By.CLASS_NAME, "btn").click() # click the delete button
+    assert WebDriverWait(driver, 10).until(
+        EC.text_to_be_present_in_element((By.TAG_NAME, "body"), "Expense deleted successfully!")
+    )
+
+    table_size = int(driver.find_element(By.TAG_NAME, "tbody").get_attribute("childElementCount"))
+    assert table_size == 0 # should be 0 after deleting the expense
+    print(table_size)
+
+def test_delete_shared_expense(driver):
+    driver.get("http://127.0.0.1:5000/share")
+    table_size = int(driver.find_element(By.TAG_NAME, "tbody").get_attribute("childElementCount"))
+    assert table_size == 1 # should be 1 after the previous tests
+    print(table_size)
+    
+    driver.find_element(By.CLASS_NAME, "btn-danger").click() # click the delete button
+    assert WebDriverWait(driver, 10).until(
+        EC.text_to_be_present_in_element((By.TAG_NAME, "body"), "Shared expense deleted successfully!")
+    )
+
+    table_size = int(driver.find_element(By.TAG_NAME, "tbody").get_attribute("childElementCount"))
+    assert table_size == 0 # should be 0 after deleting the expense
+    print(table_size)
